@@ -7,8 +7,8 @@ namespace InfernusMod.Survivors.Infernus.Achievements
     [RegisterAchievement(identifier, unlockableIdentifier, null, 10, null)]
     public class InfernusMasteryAchievement : BaseMasteryAchievement
     {
-        public const string identifier = InfernusSurvivor.Infernus_PREFIX + "masteryAchievement";
-        public const string unlockableIdentifier = InfernusSurvivor.Infernus_PREFIX + "masteryUnlockable";
+        public const string identifier = InfernusSurvivor.INFERNUS_PREFIX + "masteryAchievement";
+        public const string unlockableIdentifier = InfernusSurvivor.INFERNUS_PREFIX + "masteryUnlockable";
 
         public override string RequiredCharacterBody => InfernusSurvivor.instance.bodyName;
 

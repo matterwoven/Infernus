@@ -23,19 +23,19 @@ namespace InfernusMod.Survivors.Infernus
         public override string masterName => "InfernusMonsterMaster"; //if you do not
 
         //the names of the prefabs you set up in unity that we will use to build your character
-        public override string modelPrefabName => "mdlInfernus";
-        public override string displayPrefabName => "InfernusDisplay";
+        public override string modelPrefabName => "infernus";
+        public override string displayPrefabName => "infernusLobby";
 
-        public const string Infernus_PREFIX = InfernusPlugin.DEVELOPER_PREFIX + "_Infernus_";
+        public const string INFERNUS_PREFIX = InfernusPlugin.DEVELOPER_PREFIX + "_INFERNUS_";
 
         //used when registering your survivor's language tokens
-        public override string survivorTokenPrefix => Infernus_PREFIX;
+        public override string survivorTokenPrefix => INFERNUS_PREFIX;
         
         public override BodyInfo bodyInfo => new BodyInfo
         {
-            bodyName = bodyName,
-            bodyNameToken = Infernus_PREFIX + "NAME",
-            subtitleNameToken = Infernus_PREFIX + "SUBTITLE",
+            bodyName = "InfernusIsNowANoodle",
+            bodyNameToken = INFERNUS_PREFIX + "NAME",
+            subtitleNameToken = INFERNUS_PREFIX + "SUBTITLE",
 
             characterPortrait = assetBundle.LoadAsset<Texture>("texInfernusIcon"),
             bodyColor = Color.white,
@@ -55,7 +55,7 @@ namespace InfernusMod.Survivors.Infernus
         {
                 new CustomRendererInfo
                 {
-                    childName = "SwordModel",
+                    childName = "BodyModel",
                     material = assetBundle.LoadMaterial("matInfernus"),
                 },
                 new CustomRendererInfo
@@ -166,8 +166,8 @@ namespace InfernusMod.Survivors.Infernus
             bodyPrefab.GetComponent<SkillLocator>().passiveSkill = new SkillLocator.PassiveSkill
             {
                 enabled = true,
-                skillNameToken = Infernus_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = Infernus_PREFIX + "PASSIVE_DESCRIPTION",
+                skillNameToken = INFERNUS_PREFIX + "PASSIVE_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "PASSIVE_DESCRIPTION",
                 keywordToken = "KEYWORD_STUNNING",
                 icon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
             };
@@ -177,8 +177,8 @@ namespace InfernusMod.Survivors.Infernus
             SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "InfernusPassive",
-                skillNameToken = Infernus_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = Infernus_PREFIX + "PASSIVE_DESCRIPTION",
+                skillNameToken = INFERNUS_PREFIX + "PASSIVE_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "PASSIVE_DESCRIPTION",
                 keywordTokens = new string[] { "KEYWORD_AGILE" },
                 skillIcon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
 
@@ -221,8 +221,8 @@ namespace InfernusMod.Survivors.Infernus
             SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
                 (
                     "InfernusSlash",
-                    Infernus_PREFIX + "PRIMARY_SLASH_NAME",
-                    Infernus_PREFIX + "PRIMARY_SLASH_DESCRIPTION",
+                    INFERNUS_PREFIX + "PRIMARY_SLASH_NAME",
+                    INFERNUS_PREFIX + "PRIMARY_SLASH_DESCRIPTION",
                     assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
                     new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
                     "Weapon",
@@ -243,8 +243,8 @@ namespace InfernusMod.Survivors.Infernus
             SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "InfernusGun",
-                skillNameToken = Infernus_PREFIX + "SECONDARY_GUN_NAME",
-                skillDescriptionToken = Infernus_PREFIX + "SECONDARY_GUN_DESCRIPTION",
+                skillNameToken = INFERNUS_PREFIX + "SECONDARY_GUN_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "SECONDARY_GUN_DESCRIPTION",
                 keywordTokens = new string[] { "KEYWORD_AGILE" },
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
 
@@ -283,8 +283,8 @@ namespace InfernusMod.Survivors.Infernus
             SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "InfernusRoll",
-                skillNameToken = Infernus_PREFIX + "UTILITY_ROLL_NAME",
-                skillDescriptionToken = Infernus_PREFIX + "UTILITY_ROLL_DESCRIPTION",
+                skillNameToken = INFERNUS_PREFIX + "UTILITY_ROLL_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "UTILITY_ROLL_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(Roll)),
@@ -321,8 +321,8 @@ namespace InfernusMod.Survivors.Infernus
             SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "InfernusBomb",
-                skillNameToken = Infernus_PREFIX + "SPECIAL_BOMB_NAME",
-                skillDescriptionToken = Infernus_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
+                skillNameToken = INFERNUS_PREFIX + "SPECIAL_BOMB_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
@@ -374,7 +374,7 @@ namespace InfernusMod.Survivors.Infernus
             #region MasterySkin
             
             ////creating a new skindef as we did before
-            //SkinDef masterySkin = Modules.Skins.CreateSkinDef(Infernus_PREFIX + "MASTERY_SKIN_NAME",
+            //SkinDef masterySkin = Modules.Skins.CreateSkinDef(INFERNUS_PREFIX + "MASTERY_SKIN_NAME",
             //    assetBundle.LoadAsset<Sprite>("texMasteryAchievement"),
             //    defaultRendererinfos,
             //    prefabCharacterModel.gameObject,

@@ -18,7 +18,7 @@ namespace InfernusMod.Survivors.Infernus
 
         public static void AddInfernusTokens()
         {
-            string prefix = InfernusSurvivor.Infernus_PREFIX;
+            string prefix = InfernusSurvivor.INFERNUS_PREFIX;
 
             string desc = "Infernus is a bartender who utilizes his Ixian flames to light up his enemies.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
              + "< ! > Afterburn deals lingering flame damage, its timer is reset by Infernus' other abilities." + Environment.NewLine + Environment.NewLine
