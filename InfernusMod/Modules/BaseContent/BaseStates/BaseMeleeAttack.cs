@@ -13,7 +13,7 @@ namespace InfernusMod.Modules.BaseStates
     {
         public int swingIndex;
 
-        protected string hitboxGroupName = "SwordGroup";
+        protected string hitboxGroupName = "NapalmGroup";
 
         protected DamageTypeCombo damageType = DamageType.Generic;
         protected float damageCoefficient = 3.5f;

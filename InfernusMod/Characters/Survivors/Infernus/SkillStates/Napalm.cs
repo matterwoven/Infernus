@@ -1,10 +1,15 @@
 ﻿using InfernusMod.Modules.BaseStates;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using InfernusMod.Modules.BaseStates;
 using RoR2;
 using UnityEngine;
 
+
 namespace InfernusMod.Survivors.Infernus.SkillStates
 {
-    public class SlashCombo : BaseMeleeAttack
+    public class Napalm : BaseMeleeAttack
     {
         public override void OnEnter()
         {

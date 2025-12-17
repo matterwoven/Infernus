@@ -123,7 +123,7 @@ namespace InfernusMod.Survivors.Infernus
         public void AddHitboxes()
         {
             //example of how to create a HitBoxGroup. see summary for more details
-            Prefabs.SetupHitBoxGroup(characterModelObject, "SwordGroup", "SwordHitbox");
+            Prefabs.SetupHitBoxGroup(characterModelObject, "NapalmGroup", "NapalmHitbox");
         }
 
         public override void InitializeEntityStateMachines() 
@@ -216,11 +216,11 @@ namespace InfernusMod.Survivors.Infernus
             //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
             SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
                 (
-                    "InfernusSlash",
-                    INFERNUS_PREFIX + "PRIMARY_SLASH_NAME",
-                    INFERNUS_PREFIX + "PRIMARY_SLASH_DESCRIPTION",
-                    assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
-                    new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
+                    "InfernusGun",
+                    INFERNUS_PREFIX + "PRIMARY_GUN_NAME",
+                    INFERNUS_PREFIX + "PRIMARY_GUN_DESCRIPTION",
+                    assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                    new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
                     "Weapon",
                     true
                 ));
@@ -238,13 +238,13 @@ namespace InfernusMod.Survivors.Infernus
             //here is a basic skill def with all fields accounted for
             SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "InfernusGun",
-                skillNameToken = INFERNUS_PREFIX + "SECONDARY_GUN_NAME",
-                skillDescriptionToken = INFERNUS_PREFIX + "SECONDARY_GUN_DESCRIPTION",
+                skillName = "InfernusNapalm",
+                skillNameToken = INFERNUS_PREFIX + "SECONDARY_NAPALM_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "SECONDARY_NAPALM_DESCRIPTION",
                 keywordTokens = new string[] { "KEYWORD_AGILE" },
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
                 activationStateMachineName = "Weapon2",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
@@ -278,12 +278,12 @@ namespace InfernusMod.Survivors.Infernus
             //here's a skilldef of a typical movement skill.
             SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = "InfernusRoll",
-                skillNameToken = INFERNUS_PREFIX + "UTILITY_ROLL_NAME",
-                skillDescriptionToken = INFERNUS_PREFIX + "UTILITY_ROLL_DESCRIPTION",
+                skillName = "InfernusDash",
+                skillNameToken = INFERNUS_PREFIX + "UTILITY_DASH_NAME",
+                skillDescriptionToken = INFERNUS_PREFIX + "UTILITY_DASH_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(Roll)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(FlameDash)),
                 activationStateMachineName = "Body",
                 interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
 
@@ -298,7 +298,7 @@ namespace InfernusMod.Survivors.Infernus
                 fullRestockOnAssign = true,
                 dontAllowPastMaxStocks = false,
                 mustKeyPress = false,
-                beginSkillCooldownOnSkillEnd = false,
+                beginSkillCooldownOnSkillEnd = true,
 
                 isCombatSkill = false,
                 canceledFromSprinting = false,

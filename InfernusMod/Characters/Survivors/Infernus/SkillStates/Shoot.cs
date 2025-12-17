@@ -8,7 +8,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
     public class Shoot : BaseSkillState
     {
         public static float damageCoefficient = InfernusStaticValues.gunDamageCoefficient;
-        public static float procCoefficient = 1f;
+        public static float procCoefficient = 0.6f;
         public static float baseDuration = 0.6f;
         //delay on firing is usually ass-feeling. only set this if you know what you're doing
         public static float firePercentTime = 0.0f;
