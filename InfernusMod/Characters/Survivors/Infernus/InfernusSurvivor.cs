@@ -219,7 +219,7 @@ namespace InfernusMod.Survivors.Infernus
                     "InfernusGun",
                     INFERNUS_PREFIX + "PRIMARY_GUN_NAME",
                     INFERNUS_PREFIX + "PRIMARY_GUN_DESCRIPTION",
-                    assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                    assetBundle.LoadAsset<Sprite>("texInfernusWeapon"),
                     new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
                     "Weapon",
                     true
@@ -242,14 +242,14 @@ namespace InfernusMod.Survivors.Infernus
                 skillNameToken = INFERNUS_PREFIX + "SECONDARY_NAPALM_NAME",
                 skillDescriptionToken = INFERNUS_PREFIX + "SECONDARY_NAPALM_DESCRIPTION",
                 keywordTokens = new string[] { "KEYWORD_AGILE" },
-                skillIcon = assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texNapalmColored"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
                 activationStateMachineName = "Weapon2",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                baseRechargeInterval = 2f,
-                baseMaxStock = 2,
+                //Base recharge 25 seconds in deadlock
+                baseRechargeInterval = 25f,
+                baseMaxStock = 1,
 
                 rechargeStock = 1,
                 requiredStock = 1,
@@ -281,13 +281,14 @@ namespace InfernusMod.Survivors.Infernus
                 skillName = "InfernusDash",
                 skillNameToken = INFERNUS_PREFIX + "UTILITY_DASH_NAME",
                 skillDescriptionToken = INFERNUS_PREFIX + "UTILITY_DASH_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texFlameDashColored"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(FlameDash)),
                 activationStateMachineName = "Body",
                 interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
 
-                baseRechargeInterval = 4f,
+                //Base recharge 35 seconds in deadlock
+                baseRechargeInterval = 35f,
                 baseMaxStock = 1,
 
                 rechargeStock = 1,
@@ -319,14 +320,15 @@ namespace InfernusMod.Survivors.Infernus
                 skillName = "InfernusBomb",
                 skillNameToken = INFERNUS_PREFIX + "SPECIAL_BOMB_NAME",
                 skillDescriptionToken = INFERNUS_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texConcussiveCombustionColored"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
                 //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
                 activationStateMachineName = "Weapon2", interruptPriority = EntityStates.InterruptPriority.Skill,
 
+                //Base recharge 140 seconds in deadlock
+                baseRechargeInterval = 140f,
                 baseMaxStock = 1,
-                baseRechargeInterval = 10f,
 
                 isCombatSkill = true,
                 mustKeyPress = false,

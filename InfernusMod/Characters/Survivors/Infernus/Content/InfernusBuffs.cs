@@ -18,4 +18,20 @@ namespace InfernusMod.Survivors.Infernus
 
         }
     }
+
+    public static class InfernusDebuffs
+    {
+        public static BuffDef afterburnDebuff;
+
+        public static void Init(AssetBundle assetBundle)
+        {
+            afterburnDebuff = Modules.Content.CreateAndAddBuff(
+                "InfernusAfterburn",
+                LegacyResourcesAPI.Load<BuffDef>("BuffDefs/OnFire").iconSprite,
+                Color.red,
+                true,
+                false
+            );
+        }
+    }
 }
