@@ -103,7 +103,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                         hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol2.hitEffectPrefab,
 
                         //Apply afterburn stack on hit
-                        hitCallback = ApplyAfterburnOnHit()
+                        //hitCallback = ApplyAfterburnOnHit()
                     }.Fire();
                 }
             }
@@ -115,39 +115,31 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             {
                 HurtBox hurtBox = hitInfo.hitHurtBox;
                 if (!hurtBox)
-                    return false;
+                    return true;
 
                 HealthComponent healthComponent = hurtBox.healthComponent;
                 if (!healthComponent)
-                    return false;
+                    return true;
 
 
                 CharacterBody body = hurtBox.healthComponent.body;
-                if (!body) 
-                    return false;
+                if (!body)
+                    return true;
 
-                //Adds stack of buff
-                //get current stack count and change duration to 4f * (stackcount * 0.01)
-                float afterburnDuration = 6f;
-                //float afterburnDamageMult = 1f;
-                float currentStacks = body.GetBuffCount(InfernusDebuffs.afterburnBuildup);
-
-                if (currentStacks >= 100 || body.GetBuffCount(InfernusDebuffs.afterburnDebuff) == 1)
-                {
-                    //Both buildup and afterburn can't be there at the same time
-                    body.RemoveBuff(InfernusDebuffs.afterburnBuildup);
-                    body.AddTimedBuff(InfernusDebuffs.afterburnDebuff, afterburnDuration);
-                }
-                else
-                {
-                    body.AddTimedBuff(InfernusDebuffs.afterburnBuildup, afterburnDuration);
-                }
-
+                DotController.InflictDot(
+                    healthComponent.gameObject,
+                    gameObject,
+                    hurtBox,
+                    InfernusDebuffs.afterburnDebuffIndex,
+                    4f, // duration in seconds
+                    1f  // damage multiplier
+                );
 
                 return true;
             };
         }
-
+            
+            
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {

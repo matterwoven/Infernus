@@ -4,7 +4,7 @@ namespace InfernusMod.Survivors.Infernus
 {
     public static class InfernusStaticValues
     {
-        public const float gunDamageCoefficient = 0.3f;
+        public const float gunDamageCoefficient = 20.0f;
 
         //8.36 hits
         public const float napalmDamageCoefficient = 2.5f;

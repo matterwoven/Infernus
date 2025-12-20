@@ -42,7 +42,7 @@ namespace InfernusMod.Survivors.Infernus
 
             #region Passive
             Language.Add(prefix + "PASSIVE_NAME", "Afterburn");
-            Language.Add(prefix + "PASSIVE_DESCRIPTION", Tokens.agilePrefix + $"Bullets build up afterburn, it deals <style=cIsDamage>{100f * InfernusStaticValues.dashDamageCoefficient}</style> damage over time.");
+            Language.Add(prefix + "PASSIVE_DESCRIPTION", Tokens.agilePrefix + $"Bullets build up afterburn, it deals <style=cIsDamage>{100f * InfernusStaticValues.afterburnDamageCoefficient}</style> damage over time.");
             #endregion
 
             #region Primary
@@ -52,7 +52,7 @@ namespace InfernusMod.Survivors.Infernus
 
             #region Secondary
             Language.Add(prefix + "SECONDARY_NAPALM_NAME", "Napalm");
-            Language.Add(prefix + "SECONDARY_NAPALM_DESCRIPTION", Tokens.agilePrefix + $"Fire a homemade cocktail for <style=cIsDamage>{100f * InfernusStaticValues.gunDamageCoefficient}%</style> damage.");
+            Language.Add(prefix + "SECONDARY_NAPALM_DESCRIPTION", Tokens.agilePrefix + $"Fire a homemade cocktail for <style=cIsDamage>{100f * InfernusStaticValues.napalmDamageCoefficient}%</style> damage.");
             #endregion
 
             #region Utility

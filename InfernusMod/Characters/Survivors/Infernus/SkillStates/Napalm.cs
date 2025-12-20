@@ -10,8 +10,8 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         {
             hitboxGroupName = "NapalmGroup";
 
-            damageType = DamageTypeCombo.GenericPrimary;
-            damageCoefficient = InfernusStaticValues.dashDamageCoefficient;
+            damageType = DamageTypeCombo.GenericSecondary;
+            damageCoefficient = InfernusStaticValues.napalmDamageCoefficient;
             procCoefficient = 1f;
             pushForce = 300f;
             bonusForce = Vector3.zero;

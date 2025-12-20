@@ -12,6 +12,10 @@ namespace InfernusMod.Survivors.Infernus
 
             Modules.Content.AddEntityState(typeof(Roll));
 
+            Modules.Content.AddEntityState(typeof(FlameDash));
+
+            Modules.Content.AddEntityState(typeof(Napalm));
+
             Modules.Content.AddEntityState(typeof(ThrowBomb));
         }
     }

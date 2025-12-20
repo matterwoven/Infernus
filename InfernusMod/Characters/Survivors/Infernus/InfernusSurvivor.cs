@@ -108,11 +108,13 @@ namespace InfernusMod.Survivors.Infernus
 
             InfernusAssets.Init(assetBundle);
             InfernusBuffs.Init(assetBundle);
+            InfernusDebuffs.Init(assetBundle);
 
             InitializeEntityStateMachines();
             InitializeSkills();
             InitializeSkins();
             InitializeCharacterMaster();
+            
 
             AdditionalBodySetup();
 
@@ -437,7 +439,6 @@ namespace InfernusMod.Survivors.Infernus
         {
             R2API.RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
         }
-
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, R2API.RecalculateStatsAPI.StatHookEventArgs args)
         {
 

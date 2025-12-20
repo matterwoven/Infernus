@@ -86,10 +86,11 @@ namespace InfernusMod.Survivors.Infernus
             bombImpactExplosion.blastDamageCoefficient = 1f;
             bombImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
             bombImpactExplosion.destroyOnEnemy = true;
-            bombImpactExplosion.lifetime = 12f;
+            bombImpactExplosion.lifetime = 0f;
             bombImpactExplosion.impactEffect = bombExplosionEffect;
             bombImpactExplosion.lifetimeExpiredSound = Content.CreateAndAddNetworkSoundEventDef("InfernusBombExplosion");
-            bombImpactExplosion.timerAfterImpact = true;
+            //Set to false for concussive combustion
+            bombImpactExplosion.timerAfterImpact = false;
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
             ProjectileController bombController = bombProjectilePrefab.GetComponent<ProjectileController>();

@@ -27,6 +27,8 @@ namespace InfernusMod.Survivors.Infernus
         public static BuffDef afterburnDebuff;
         public static BuffDef afterburnBuildup;
 
+        public static DotController.DotIndex afterburnDebuffIndex = DotAPI.RegisterDotDef(0.25f, 0.25f, DamageColorIndex.Bleed, afterburnDebuff);
+
         public static void Init(AssetBundle assetBundle)
         {
 
