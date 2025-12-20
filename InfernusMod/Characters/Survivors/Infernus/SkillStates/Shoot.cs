@@ -122,8 +122,9 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                     return false;
 
 
-                CharacterBody body = hurtBox.healthComponent?.body;
-                if (!body) return false;
+                CharacterBody body = hurtBox.healthComponent.body;
+                if (!body) 
+                    return false;
 
                 //Adds stack of buff
                 //get current stack count and change duration to 4f * (stackcount * 0.01)
@@ -139,7 +140,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 }
                 else
                 {
-                    body.AddTimedBuff(InfernusBuffs.speedBuff, afterburnDuration);
+                    body.AddTimedBuff(InfernusDebuffs.afterburnBuildup, afterburnDuration);
                 }
 
 
