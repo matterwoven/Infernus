@@ -2,6 +2,7 @@
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
+using static RoR2.OverlapAttack;
 
 namespace InfernusMod.Survivors.Infernus.SkillStates
 {
@@ -24,19 +25,6 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             characterBody.SetAimTimer(2f);
             muzzleString = "Muzzle";
 
-        }
-        private void FireNapalmAttack()
-        {
-            napalmAttack.overlapList.Clear();
-            napalmAttack.Fire();
-            foreach (var overlap in napalmAttack.overlapList)
-            {
-                var body = overlap.hurtBox.healthComponent?.body;
-                if (body != null)
-                {
-                    body.AddTimedBuff(InfernusDebuffs.napalmDebuff, NapalmDebuffDuration);
-                }
-            }
         }
 
         public void Fire()
@@ -80,7 +68,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
                 if (isAuthority)
                 {
-                    new OverlapAttack
+                    napalmAttack = new OverlapAttack
                     {
                         attacker = gameObject,
                         inflictor = gameObject,
@@ -93,10 +81,22 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                         damageType = damageType,
                         hitBoxGroup = FindHitBoxGroup(hitboxGroupName),
 
-                        overlapList = new List<OverlapAttack.OverlapInfo>()
-                    }.Fire();
-                }
+                        // Hook for applying the napalm debuff
+                        modifyOutgoingOverlapInfoCallback = (List<OverlapAttack.OverlapInfo> hitList) =>
+                        {
+                            foreach (var hit in hitList)
+                            {
+                                var body = hit.hurtBox.healthComponent?.body;
+                                if (body != null)
+                                {
+                                    body.AddTimedBuff(InfernusDebuffs.napalmDebuff, NapalmDebuffDuration);
+                                }
+                            }
+                        }
+                    };
 
+                    napalmAttack.Fire();
+                }
             }
         }
 
@@ -121,16 +121,22 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             base.PlaySwingEffect();
         }
 
+        //private OverlapAttack.ModifyOverlapInfoCallback OnHitNap()
+        //{
+
+            //return (OverlapAttack overlapAttack, ref OverlapAttack.OverlapInfo hitList) =>
+            //{
+                //bool returnValue = OverlapAttack.ModifyOverlapInfoCallback(overlapAttack, ref hitList);
+
+
+                //return returnValue;
+            //};
+        //}
+
+
         protected override void OnHitEnemyAuthority()
         {
             base.OnHitEnemyAuthority();
-
-            foreach (var overlap in napalmAttack.overlapList)
-            {
-                var body = overlap.hurtBox.healthComponent.body;
-                
-                body.AddTimedBuff(InfernusDebuffs.napalmDebuff, NapalmDebuffDuration);
-            }
         }
 
         public override void OnExit()
