@@ -86,15 +86,15 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
                 // Apply damage
                 DamageInfo damageInfo = new DamageInfo
                 {
-                    attacker = owner,
-                    inflictor = owner.gameObject,
+                    attacker = ownerBody.gameObject,
+                    inflictor = gameObject,
                     damage = damageThisTick,
                     damageColorIndex = DamageColorIndex.Default,
-                    damageType = DamageType.Generic,
+                    damageType = DamageType.AOE,
                     crit = ownerBody.RollCrit(),
                     position = hurtBox.transform.position,
                     force = Vector3.zero,
-                    procCoefficient = 1f
+                    procCoefficient = 10f
                 };
 
                 hurtBox.healthComponent.TakeDamage(damageInfo);
