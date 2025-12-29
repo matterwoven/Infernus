@@ -11,7 +11,7 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
 {
     public class FlameZoneController : NetworkBehaviour
     {
-        public float lifetime = 4f;
+        public float lifetime = 6f;
         public float radius = 4f;
         public float damagePerSecond = InfernusStaticValues.dashDamageCoefficient;
         public float tickInterval = 0.5f;
@@ -26,6 +26,9 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
 
         private TeamIndex ownerTeam = TeamIndex.None;
         private CharacterBody ownerBody;
+
+        private static readonly Dictionary<CharacterBody, float> lastDamageTick = new Dictionary<CharacterBody, float>();
+        private static float currentTickTime = 0f;
 
         private void Start()
         {
@@ -42,65 +45,87 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
                 }
             }
         }
-        
-        HashSet<CharacterBody> damagedThisTick = new HashSet<CharacterBody>();
 
         private void FixedUpdate()
         {
-            if (!NetworkServer.active) return;
+            if (!NetworkServer.active || !ownerBody) return;
+
+            // Increment global tick once per FixedUpdate
+            FlameZoneDamageManager.UpdateGlobalTick();
 
             tickStopwatch += Time.fixedDeltaTime;
+            if (tickStopwatch < tickInterval) return;
 
-            if (tickStopwatch >= tickInterval)
+            tickStopwatch -= tickInterval;
+
+            float damageThisTick = damagePerSecond * ownerBody.damage * tickInterval;
+
+            int count = Physics.OverlapSphereNonAlloc(
+                transform.position,
+                radius,
+                overlapResults,
+                LayerIndex.entityPrecise.mask
+            );
+
+            for (int i = 0; i < count; i++)
             {
-                tickStopwatch -= tickInterval;
+                Collider col = overlapResults[i];
+                if (!col) continue;
 
-                // Damage scaled by tick interval
-                float damageThisTick = damagePerSecond * tickInterval;
+                HurtBox hurtBox = col.GetComponent<HurtBox>();
+                if (!hurtBox || !hurtBox.healthComponent) continue;
 
-                // Track which CharacterBodies were already hit this tick
-                HashSet<CharacterBody> damagedThisTickSet = new HashSet<CharacterBody>();
+                CharacterBody victimBody = hurtBox.healthComponent.body;
+                if (!victimBody || victimBody == ownerBody) continue;
+                if (victimBody.teamComponent && victimBody.teamComponent.teamIndex == ownerTeam) continue;
 
-                int count = Physics.OverlapSphereNonAlloc(
-                    transform.position,
-                    radius,
-                    overlapResults,
-                    LayerIndex.entityPrecise.mask
-                );
+                // Check against global manager
+                if (!FlameZoneDamageManager.CanDamage(victimBody))
+                    continue;
 
-                for (int i = 0; i < count; i++)
+                // Apply damage
+                DamageInfo damageInfo = new DamageInfo
                 {
-                    Collider col = overlapResults[i];
-                    if (!col) continue;
+                    attacker = owner,
+                    inflictor = owner.gameObject,
+                    damage = damageThisTick,
+                    damageColorIndex = DamageColorIndex.Default,
+                    damageType = DamageType.Generic,
+                    crit = ownerBody.RollCrit(),
+                    position = hurtBox.transform.position,
+                    force = Vector3.zero,
+                    procCoefficient = 1f
+                };
 
-                    HurtBox hurtBox = col.GetComponent<HurtBox>();
-                    if (!hurtBox || !hurtBox.healthComponent) continue;
+                hurtBox.healthComponent.TakeDamage(damageInfo);
 
-                    CharacterBody victimBody = hurtBox.healthComponent.body;
-                    if (!victimBody || (ownerBody && victimBody == ownerBody)) continue;
-                    if (victimBody.teamComponent && victimBody.teamComponent.teamIndex == ownerTeam) continue;
-
-                    // Hit each target only once per tick
-                    if (damagedThisTickSet.Contains(victimBody)) continue;
-                    damagedThisTickSet.Add(victimBody);
-
-                    DamageInfo damageInfo = new DamageInfo
-                    {
-                        attacker = owner,
-                        inflictor = gameObject,
-                        damage = damageThisTick * ownerBody.damage,
-                        damageColorIndex = DamageColorIndex.Default,
-                        damageType = DamageType.Generic,
-                        crit = ownerBody && ownerBody.RollCrit(),
-                        position = hurtBox.transform.position,
-                        force = Vector3.zero,
-                        procCoefficient = 1f
-                    };
-
-                    hurtBox.healthComponent.TakeDamage(damageInfo);
-                }
+                // Register damage in global manager
+                FlameZoneDamageManager.RegisterDamage(victimBody);
             }
-        
+        }
+
+
+        public static class FlameZoneDamageManager
+        {
+            public static float globalTickTime = 0f; // increments every FixedUpdate globally
+            public static readonly Dictionary<CharacterBody, float> lastDamageTick = new Dictionary<CharacterBody, float>();
+
+            public static void UpdateGlobalTick()
+            {
+                globalTickTime += Time.fixedDeltaTime;
+            }
+
+            public static bool CanDamage(CharacterBody body)
+            {
+                return !lastDamageTick.TryGetValue(body, out float lastTick) || lastTick < globalTickTime;
+            }
+
+            public static void RegisterDamage(CharacterBody body)
+            {
+                lastDamageTick[body] = globalTickTime;
+            }
+        }
+
 
 
         //foreach (HurtBox hurtBox in victims)
@@ -121,24 +146,23 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
         //}
     }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (!NetworkServer.active) return;
+        //private void OnTriggerEnter(Collider other)
+        //{
+            //if (!NetworkServer.active) return;
 
-            HurtBox hurtBox = other.GetComponent<HurtBox>();
-            if (!hurtBox || !hurtBox.healthComponent) return;
+            //HurtBox hurtBox = other.GetComponent<HurtBox>();
+            //if (!hurtBox || !hurtBox.healthComponent) return;
 
-            victims.Add(hurtBox);
-        }
+            //victims.Add(hurtBox);
+        //}
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (!NetworkServer.active) return;
+        //private void OnTriggerExit(Collider other)
+        //{
+            //if (!NetworkServer.active) return;
 
-            HurtBox hurtBox = other.GetComponent<HurtBox>();
-            if (!hurtBox) return;
+            //HurtBox hurtBox = other.GetComponent<HurtBox>();
+            //if (!hurtBox) return;
 
-            victims.Remove(hurtBox);
-        }
-    }
+            //victims.Remove(hurtBox);
+        //}
 }

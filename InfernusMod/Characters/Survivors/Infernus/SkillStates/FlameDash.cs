@@ -28,6 +28,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         private float nextSpawnDistance = 0f; //Temporary Dash value, rolls forward in parallel to distanceTraveled
 
 
+
         public override void OnEnter()
         {
             base.OnEnter();
