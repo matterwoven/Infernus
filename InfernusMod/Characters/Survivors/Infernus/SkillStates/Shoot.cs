@@ -122,6 +122,11 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 bool returnValue = BulletAttack.DefaultHitCallbackImplementation(bulletAttack, ref hitInfo);
                 bool isCrit = bulletAttack.isCrit;
 
+                if (!hitInfo.hitHurtBox)
+                {
+                    return returnValue;
+                }
+
                 //Victim data
                 HealthComponent victimHealthComponent = hitInfo.hitHurtBox.healthComponent;
                 CharacterBody victimCharacterBody = victimHealthComponent.body;

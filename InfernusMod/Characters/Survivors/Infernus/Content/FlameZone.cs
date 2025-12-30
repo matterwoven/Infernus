@@ -14,7 +14,7 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
         public float lifetime = 6f;
         public float radius = 4f;
         public float damagePerSecond = InfernusStaticValues.dashDamageCoefficient;
-        public float tickInterval = 0.5f;
+        public float tickInterval = 0.6f;
 
         public GameObject owner;
 
@@ -90,14 +90,17 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
                     inflictor = gameObject,
                     damage = damageThisTick,
                     damageColorIndex = DamageColorIndex.Default,
-                    damageType = DamageType.AOE,
+                    damageType = DamageType.Generic,
                     crit = ownerBody.RollCrit(),
                     position = hurtBox.transform.position,
                     force = Vector3.zero,
-                    procCoefficient = 10f
+                    procCoefficient = 0.6f
                 };
 
+                //Does the damage
                 hurtBox.healthComponent.TakeDamage(damageInfo);
+                //Triggers on damage effects
+                GlobalEventManager.instance.OnHitEnemy(damageInfo, victimBody.healthComponent.gameObject);
 
                 // Register damage in global manager
                 FlameZoneDamageManager.RegisterDamage(victimBody);

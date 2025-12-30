@@ -9,20 +9,31 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 {
     public class FlameDash : BaseSkillState
     {
+        //Alpha changes - Cosmetic
+        private Material dashPlaneMaterial;
+        private float fadeTimer = 0f;
+        private float peakAlpha = 0.8f; // how fast it flickers
+        private float baseAlpha = 0.1f; // starting alpha
+        private float flickerAmplitude = 0.2f; // max alpha change
+        private Vector3 baseScale;
+
+        //Speed and duration changes
         public static float duration = 3f;
         public static float initialSpeedCoefficient = 1f;
         public static float finalSpeedCoefficient = 4f;
         public static GameObject flameZonePrefab;
 
+        //Sound and experience FOV
         public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = global::EntityStates.Commando.DodgeState.dodgeFOV;
 
+        //Roll values
         private float rollSpeed;
         private Vector3 forwardDirection;
         private Animator animator;
         private Vector3 previousPosition;
 
-        //Dash values
+        //Dash placement values
         private float spawnInterval = 5f; //How far dash blazes are placed
         private float distanceTraveled = 0f; //Changing over time, how far character has traveled since last blaze placement
         private float nextSpawnDistance = 0f; //Temporary Dash value, rolls forward in parallel to distanceTraveled
