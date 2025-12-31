@@ -2,7 +2,7 @@
 Adds a new survivor: Infernus.
 
 ## Skills
-| | Type | Name | Description | |
+| Type | Name | Description | 
 |---|---|-----|
 |Passive| Afterburn | Incendiary Remarks applies stacks of buildup on hit, afterburn deals 200% damage per second. Intensifies every ten stacks. |
 |Primary| Incenidary Remarks | Shoot flaming bullets dealing 60% damage. |
