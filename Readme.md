@@ -9,7 +9,7 @@ Utility: Flame Dash | Dash swiftly leaving behind a trail of flames, enemies sta
 Special: Concussive Combustion | Turn into a living bomb, dealing 800% damage to nearby enemies.
 
 > [!NOTE]
-> Disclaimer: This was made by following the Henry Tutorial, modifying my own changes as needed, and made possible through the modding discords support.
+> Disclaimer: The base was sourced from the Henry Tutorial, and made possible through the modding discords support.
 > Head to the [Wiki](https://github.com/ArcPh1r3/HenryTutorial/wiki) if your interested in implementing your own character.
 > Also, consider going to the official modding discord for help, there are wonderful people who share resources in there.
 
