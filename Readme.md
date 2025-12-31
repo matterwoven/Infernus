@@ -1,6 +1,8 @@
 # Introduction
 Adds a new survivor: Infernus.
 
+Depending on how interested people seem in this project I'll see about importing other characters from Deadlock into RoR2 as well.
+
 ## Skills
 | Type | Name | Description | 
 |---|---|-----|
