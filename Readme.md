@@ -14,7 +14,7 @@ If people are interested in this project I'll see about importing other characte
 
 > [!NOTE]
 > Disclaimer: The base was sourced from the Henry Tutorial, and made possible through the modding discords support.  
-> Head to the [Wiki](https://github.com/ArcPh1r3/HenryTutorial/wiki) if your interested in implementing your own character.  
+> Head to the [Wiki](https://github.com/ArcPh1r3/HenryTutorial/wiki) if you're interested in implementing your own character.  
 > Also, consider going to the official modding discord for help, there are wonderful people who share resources in there.  
   
   
