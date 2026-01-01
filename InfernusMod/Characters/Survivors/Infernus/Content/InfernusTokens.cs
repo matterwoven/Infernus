@@ -42,7 +42,7 @@ namespace InfernusMod.Survivors.Infernus
 
             #region Passive
             Language.Add(prefix + "PASSIVE_NAME", "Afterburn");
-            Language.Add(prefix + "PASSIVE_DESCRIPTION", Tokens.agilePrefix + $"Bullets build up afterburn, it deals <style=cIsDamage>{100f * InfernusStaticValues.afterburnDamageCoefficient}</style> damage over time.");
+            Language.Add(prefix + "PASSIVE_DESCRIPTION", Tokens.agilePrefix + $"Incendiary Remarks applies stacks of buildup on hit, afterburn deals 200% damage per second. Intensifies every ten stacks.");
             #endregion
 
             #region Primary
@@ -52,17 +52,17 @@ namespace InfernusMod.Survivors.Infernus
 
             #region Secondary
             Language.Add(prefix + "SECONDARY_NAPALM_NAME", "Napalm");
-            Language.Add(prefix + "SECONDARY_NAPALM_DESCRIPTION", Tokens.agilePrefix + $"Fire a homemade cocktail for <style=cIsDamage>{100f * InfernusStaticValues.napalmDamageCoefficient}%</style> damage.");
+            Language.Add(prefix + "SECONDARY_NAPALM_DESCRIPTION", Tokens.agilePrefix + $"Eject napalm to coat enemies dealing <style=cIsDamage>{100f * InfernusStaticValues.napalmDamageCoefficient}%</style> damage. The Napalm status effect increases damage taken by 30%.");
             #endregion
 
             #region Utility
             //Base Roll
             Language.Add(prefix + "UTILITY_ROLL_NAME", "Roll");
-            Language.Add(prefix + "UTILITY_ROLL_DESCRIPTION", Tokens.agilePrefix + $"Dash forward, gaining <style=cIsUtility>20 movement speed</style>. You leave a trail of fire that burns enemies for <style=cIsDamage>{100f * InfernusStaticValues.dashDamageCoefficient}%</style> damage.");
+            Language.Add(prefix + "UTILITY_ROLL_DESCRIPTION", Tokens.agilePrefix + $"Dash swiftly leaving behind a trail of flames that deals <style=cIsDamage>{100f * InfernusStaticValues.dashDamageCoefficient}%</style> damage every second.");
             
             //Flame Dash
             Language.Add(prefix + "UTILITY_DASH_NAME", "Flame Dash");
-            Language.Add(prefix + "UTILITY_DASH_DESCRIPTION", Tokens.agilePrefix + $"Dash forward, gaining <style=cIsUtility>20 movement speed</style>. You leave a trail of fire that burns enemies for <style=cIsDamage>{100f * InfernusStaticValues.dashDamageCoefficient}%</style> damage.");
+            Language.Add(prefix + "UTILITY_DASH_DESCRIPTION", Tokens.agilePrefix + $"Dash swiftly leaving behind a trail of flames that deals <style=cIsDamage>{100f * InfernusStaticValues.dashDamageCoefficient}%</style> damage every second.");
             #endregion
 
 
