@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using InfernusMod.Modules.BaseStates;
+using R2API.Utils;
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,6 +47,13 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         {
             if (!isAuthority || hasFired) return;
 
+            Vector3 aimDirection = GetAimRay().direction;
+            Transform hitBoxTransform = FindHitBoxGroup("NapalmGroup")?.transform;
+            if (hitBoxTransform != null)
+            {
+                ChatMessage.Send("Napalm group was null, contact matterwoven in the modding discord about this issue");
+                hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+            }
             napalmAttack = new OverlapAttack
             {
                 attacker = gameObject,
@@ -54,7 +62,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 damage = InfernusStaticValues.napalmDamageCoefficient * damageStat,
                 procCoefficient = procCoefficient,
                 //hitEffectPrefab = hitEffectPrefab,
-                forceVector = transform.forward * pushForce,
+                forceVector = aimDirection * pushForce,
                 isCrit = RollCrit(),
                 damageType = DamageType.Generic,
                 hitBoxGroup = FindHitBoxGroup("NapalmGroup"),
