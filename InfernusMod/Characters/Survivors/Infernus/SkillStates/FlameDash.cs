@@ -169,6 +169,10 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             base.OnSerialize(writer);
             writer.Write(forwardDirection);
         }
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Any;
+        }
 
         public override void OnDeserialize(NetworkReader reader)
         {

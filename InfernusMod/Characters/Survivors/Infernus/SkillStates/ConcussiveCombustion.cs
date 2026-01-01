@@ -11,9 +11,15 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 {
     public class ConcussiveCombustion : GenericProjectileBaseState
     {
-        public static float BaseDuration = 0.01f;
+        //Stun duration on special, not needed because of how stun is implemented
+        //public static float StunDuration = 1.05f;
+
         //delays for projectiles feel absolute ass so only do this if you know what you're doing, otherwise it's best to keep it at 0
         public static float BaseDelayDuration = 3.0f;
+
+        //Wind up values
+        public static float windupTime = 3f; //3 secs
+        private bool hasFired; //Don't want to cast multiple at a time
 
         public static float DamageCoefficient = 16f;
 
@@ -25,7 +31,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
             attackSoundString = "InfernusBombThrow";
 
-            baseDuration = BaseDuration;
+            baseDuration = windupTime;
             baseDelayBeforeFiringProjectile = BaseDelayDuration;
 
             damageCoefficient = DamageCoefficient;
@@ -37,7 +43,9 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             //base.maxSpread = 0;
 
             recoilAmplitude = 0.1f;
-            bloom = 10;
+            bloom = 10f;
+
+            hasFired = false;
 
             base.OnEnter();
         }
@@ -45,17 +53,24 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         public override void ModifyProjectileInfo(ref FireProjectileInfo fireProjectileInfo)
         {
             base.ModifyProjectileInfo(ref fireProjectileInfo);
-            fireProjectileInfo.damageTypeOverride = DamageTypeCombo.GenericSpecial;
+            fireProjectileInfo.damageTypeOverride = DamageType.Stun1s | DamageType.AOE | DamageTypeCombo.GenericSpecial;
         }
 
         public override void FixedUpdate()
         {
+            //Implement windup here through a tickdown
             base.FixedUpdate();
+
+            if (!hasFired && fixedAge >= baseDuration && isAuthority)
+            {
+                FireProjectile();
+                hasFired = true;
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.Skill;
+            return InterruptPriority.PrioritySkill;
         }
 
         public override void PlayAnimation(float duration)
