@@ -25,7 +25,7 @@ namespace InfernusMod.Survivors.Infernus
         public override string masterName => "InfernusMonsterMaster"; //if you do not
 
         //the names of the prefabs you set up in unity that we will use to build your character
-        public override string modelPrefabName => "mdlInfernus";
+        public override string modelPrefabName => "mdlGameInfernus";
         public override string displayPrefabName => "InfernusDisplay";
 
         public const string INFERNUS_PREFIX = InfernusPlugin.DEVELOPER_PREFIX + "_INFERNUS_";

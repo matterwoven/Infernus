@@ -72,8 +72,8 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
                 if (NetworkServer.active)
                 {
-                    characterBody.AddTimedBuff(InfernusBuffs.speedBuff, 3f * duration);
-                    characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * duration);
+                    characterBody.AddTimedBuff(InfernusBuffs.speedBuff, duration);
+                    //characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * duration);
                 }
             }
         }
