@@ -54,6 +54,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         {
             base.ModifyProjectileInfo(ref fireProjectileInfo);
             fireProjectileInfo.damageTypeOverride = DamageType.Stun1s | DamageType.AOE | DamageTypeCombo.GenericSpecial;
+
         }
 
         public override void FixedUpdate()

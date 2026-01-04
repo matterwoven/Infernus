@@ -51,7 +51,6 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             Transform hitBoxTransform = FindHitBoxGroup("NapalmGroup")?.transform;
             if (hitBoxTransform != null)
             {
-                ChatMessage.Send("Napalm group was null, contact matterwoven in the modding discord about this issue");
                 hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
             }
             napalmAttack = new OverlapAttack
