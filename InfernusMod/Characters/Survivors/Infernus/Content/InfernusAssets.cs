@@ -100,7 +100,7 @@ namespace InfernusMod.Survivors.Infernus
         private static void CreateProjectiles()
         {
             CreateBombProjectile();
-            Content.AddProjectilePrefab(bombProjectilePrefab);
+            //Content.AddProjectilePrefab(bombProjectilePrefab);
         }
 
 

@@ -6,55 +6,63 @@ using System.Text;
 using UnityEngine;
 using InfernusMod.Survivors.Infernus;
 using RoR2;
+using static RoR2.OverlapAttack;
+using R2API.Utils;
 
 namespace InfernusMod.Survivors.Infernus.SkillStates
 {
-    public class ConcussiveCombustion : GenericProjectileBaseState
+    public class ConcussiveCombustion : BaseSkillState
     {
-        //Stun duration on special, not needed because of how stun is implemented
+        //Stun duration on special, not needed because of how stun is implemented in damage
         //public static float StunDuration = 1.05f;
 
-        //delays for projectiles feel absolute ass so only do this if you know what you're doing, otherwise it's best to keep it at 0
-        public static float BaseDelayDuration = 3.0f;
-
         //Wind up values
+        public OverlapAttack concussiveAttack;
+        public static float baseDuration = 3.0f;
+        public static float damageCoefficient = 16f;
+        public static float procCoefficient = 2f;
+        public static float napalmDuration = 15f;
+        public static float firePercentTime = 1f;
+        public static float pushForce = 10f;
         public static float windupTime = 3f; //3 secs
-        private bool hasFired; //Don't want to cast multiple at a time
 
-        public static float DamageCoefficient = 16f;
+        private float attackDelay;
+        private float fireTime;
+        private bool hasFired;
+
 
         public override void OnEnter()
         {
-            projectilePrefab = InfernusAssets.bombProjectilePrefab;
-            //base.effectPrefab = Modules.Assets.SomeMuzzleEffect;
-            //targetmuzzle = "muzzleThrow"
-
-            attackSoundString = "InfernusBombThrow";
-
-            baseDuration = windupTime;
-            baseDelayBeforeFiringProjectile = BaseDelayDuration;
-
-            damageCoefficient = DamageCoefficient;
-            //proc coefficient is set on the components of the projectile prefab
-            force = 80f;
-
-            //base.projectilePitchBonus = 0;
-            //base.minSpread = 0;
-            //base.maxSpread = 0;
-
-            recoilAmplitude = 0.1f;
-            bloom = 10f;
+            base.OnEnter();
 
             hasFired = false;
 
-            base.OnEnter();
+            characterBody.SetAimTimer(baseDuration);
+
+            //Once you have anims PlayAnimation();
+
+            //Once you have the audio Util.PlaySound("InfernusNapalm", gameObject);
         }
-
-        public override void ModifyProjectileInfo(ref FireProjectileInfo fireProjectileInfo)
+        
+        public void Fire()
         {
-            base.ModifyProjectileInfo(ref fireProjectileInfo);
-            fireProjectileInfo.damageTypeOverride = DamageType.Stun1s | DamageType.AOE | DamageTypeCombo.GenericSpecial;
+            HitBoxGroup concussiveCombustion = FindHitBoxGroup("ConcussiveGroup");
 
+            OverlapAttack attack = new OverlapAttack
+            {
+                attacker = gameObject,
+                inflictor = gameObject,
+                teamIndex = characterBody.teamComponent.teamIndex,
+                damage = InfernusStaticValues.napalmDamageCoefficient * damageStat,
+                procCoefficient = procCoefficient,
+                //hitEffectPrefab = hitEffectPrefab,
+                isCrit = RollCrit(),
+                damageType = DamageType.Stun1s | DamageType.AOE,
+                hitBoxGroup = FindHitBoxGroup("ConcussiveGroup"),
+            };
+
+            ChatMessage.Send("Napalm group was null, contact matterwoven in the modding discord about this issue");
+            attack.Fire();
         }
 
         public override void FixedUpdate()
@@ -62,10 +70,18 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             //Implement windup here through a tickdown
             base.FixedUpdate();
 
-            if (!hasFired && fixedAge >= baseDuration && isAuthority)
+
+
+            // Fire only during active hit window
+            if (isAuthority && !hasFired && fixedAge >= windupTime)
             {
-                FireProjectile();
                 hasFired = true;
+                Fire();
+            }
+
+            if (isAuthority && fixedAge >= attackDelay)
+            {
+                outer.SetNextStateToMain();
             }
         }
 
@@ -74,13 +90,18 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             return InterruptPriority.PrioritySkill;
         }
 
-        public override void PlayAnimation(float duration)
+        public void PlayAnimation(float duration)
         {
 
             if (GetModelAnimator())
             {
-                PlayAnimation("Gesture, Override", "ThrowBomb", "ThrowBomb.playbackRate", this.duration);
+                PlayAnimation("Combustion, Override", "Combust", "Combust.playbackRate", duration);
             }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
         }
     }
 }

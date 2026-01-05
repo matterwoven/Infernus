@@ -33,6 +33,8 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             fireTime = firePercentTime * attackDelay;
             characterBody.SetAimTimer(2f);
 
+            hasFired = false;
+
             if (isAuthority)
             {
                 Fire();
@@ -52,6 +54,10 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
             if (hitBoxTransform != null)
             {
                 hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+            }
+            if (FindHitBoxGroup("NapalmGroup") == null)
+            {
+                ChatMessage.Send("NapalmGroup not found!");
             }
             napalmAttack = new OverlapAttack
             {
@@ -87,7 +93,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         {
             base.FixedUpdate();
             // Fire only during active hit window
-            if (fixedAge >= fireTime)
+            if (isAuthority && !hasFired && fixedAge >= fireTime)
             {
                 hasFired = true;
                 Fire();
