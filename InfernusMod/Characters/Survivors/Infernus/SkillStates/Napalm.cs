@@ -17,6 +17,8 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         public static float napalmDuration = 15f;
         public static float firePercentTime = 1f;
         public static float pushForce = 10f;
+        public static float offsetFloat = 3f;
+        public Transform hitBoxTransform;
 
         private float attackDelay;
         private float fireTime;
@@ -29,16 +31,13 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         {
             base.OnEnter();
 
+            hitBoxTransform = FindHitBoxGroup("NapalmGroup")?.transform;
+
             attackDelay = baseDuration / attackSpeedStat;
             fireTime = firePercentTime * attackDelay;
             characterBody.SetAimTimer(2f);
 
             hasFired = false;
-
-            if (isAuthority)
-            {
-                Fire();
-            }
 
             //Once you have anims PlayAnimation();
 
@@ -48,17 +47,22 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         public void Fire()
         {
             if (!isAuthority || hasFired) return;
-
-            Vector3 aimDirection = GetAimRay().direction;
-            Transform hitBoxTransform = FindHitBoxGroup("NapalmGroup")?.transform;
-            if (hitBoxTransform != null)
-            {
-                hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
-            }
-            if (FindHitBoxGroup("NapalmGroup") == null)
+            if (!hitBoxTransform) return;
+            HitBoxGroup hitBoxGroup = FindHitBoxGroup("NapalmGroup");
+            if (!hitBoxGroup)
             {
                 ChatMessage.Send("NapalmGroup not found!");
+                return;
             }
+
+            hasFired = true;
+
+            Vector3 aimDirection = inputBank.aimDirection;
+            
+            hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+
+            hitBoxTransform.position = characterBody.corePosition + aimDirection * offsetFloat;
+
             napalmAttack = new OverlapAttack
             {
                 attacker = gameObject,
@@ -70,7 +74,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 forceVector = aimDirection * pushForce,
                 isCrit = RollCrit(),
                 damageType = DamageType.Generic,
-                hitBoxGroup = FindHitBoxGroup("NapalmGroup"),
+                hitBoxGroup = hitBoxGroup,
 
                 // Hook for applying the napalm debuff
                 modifyOutgoingOverlapInfoCallback = (List<OverlapAttack.OverlapInfo> hitList) =>
@@ -92,30 +96,48 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            float readyState = PercentageDone();
+
+
             // Fire only during active hit window
-            if (isAuthority && !hasFired && fixedAge >= fireTime)
+
+            if (isAuthority && (readyState >= 1f))
             {
-                hasFired = true;
+                hasFired = false;
                 Fire();
+                PlayAnimation(attackDelay);
+
+                outer.SetNextStateToMain();
             }
 
+            // Fire only during active hit window
+            //if (isAuthority && !hasFired && fixedAge >= fireTime)
+            //{
+                //hasFired = true;
+                //Fire();
+
+            //}
+
             //if (isAuthority && fixedAge >= attackDelay)
-            //
+            //{ 
                 //outer.SetNextStateToMain();
             //}
         }
 
-        //private OverlapAttack.ModifyOverlapInfoCallback OnHitNap()
-        //{
+        public void PlayAnimation(float duration)
+        {
 
-        //return (OverlapAttack overlapAttack, ref OverlapAttack.OverlapInfo hitList) =>
-        //{
-        //bool returnValue = OverlapAttack.ModifyOverlapInfoCallback(overlapAttack, ref hitList);
+            if (GetModelAnimator())
+            {
+                PlayAnimation("Gesture, Override", "Napalm", "Slash.playbackRate", duration);
+            }
+        }
 
+        protected float PercentageDone()
+        {
+            return Mathf.Clamp01(base.fixedAge / attackDelay);
+        }
 
-        //return returnValue;
-        //};
-        //}
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Any;

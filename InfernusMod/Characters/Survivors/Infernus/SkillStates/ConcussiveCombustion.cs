@@ -108,7 +108,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
             if (GetModelAnimator())
             {
-                PlayAnimation("Combustion, Override", "Combust", "Combust.playbackRate", duration);
+                PlayAnimation("FullBody, Override", "Combustion", "ThrowBomb.playbackRate", duration);
             }
         }
 
