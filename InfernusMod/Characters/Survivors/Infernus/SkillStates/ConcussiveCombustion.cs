@@ -19,70 +19,83 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         //Wind up values
         public OverlapAttack concussiveAttack;
         public static float baseDuration = 3.0f;
-        public static float damageCoefficient = 16f;
+        public static float damageCoefficient = InfernusStaticValues.bombDamageCoefficient;
         public static float procCoefficient = 2f;
         public static float napalmDuration = 15f;
         public static float firePercentTime = 1f;
         public static float pushForce = 10f;
         public static float windupTime = 3f; //3 secs
 
+        private static float duration;
+
         private float attackDelay;
         private float fireTime;
         private bool hasFired;
 
+        //Synopsis for rework
+
+        //OnEnter, load the area of the hit relative to the character
+        //Wait 3 seconds, then exit
+        //OnExit, play animation of character, play attached sound, then in defined area hit characters with stun hit for damage coefficient
+
+
+        //Returns a float ex: Begins 0.1 -> Ends 1.0
+        protected float PercentageDone()
+        {
+            return Mathf.Clamp01(base.fixedAge / duration);
+        }
 
         public override void OnEnter()
         {
             base.OnEnter();
 
             hasFired = false;
-
-            characterBody.SetAimTimer(baseDuration);
+            duration = baseDuration / attackSpeedStat;
+            characterBody.SetAimTimer(duration);
 
             //Once you have anims PlayAnimation();
 
             //Once you have the audio Util.PlaySound("InfernusNapalm", gameObject);
         }
         
-        public void Fire()
+        public void InitializeAttack()
         {
             HitBoxGroup concussiveCombustion = FindHitBoxGroup("ConcussiveGroup");
 
-            OverlapAttack attack = new OverlapAttack
+            concussiveAttack = new OverlapAttack
             {
                 attacker = gameObject,
                 inflictor = gameObject,
                 teamIndex = characterBody.teamComponent.teamIndex,
-                damage = InfernusStaticValues.napalmDamageCoefficient * damageStat,
+                damage = InfernusStaticValues.bombDamageCoefficient * damageStat,
                 procCoefficient = procCoefficient,
                 //hitEffectPrefab = hitEffectPrefab,
                 isCrit = RollCrit(),
                 damageType = DamageType.Stun1s | DamageType.AOE,
-                hitBoxGroup = FindHitBoxGroup("ConcussiveGroup"),
+                hitBoxGroup = concussiveCombustion,
             };
 
-            ChatMessage.Send("Napalm group was null, contact matterwoven in the modding discord about this issue");
-            attack.Fire();
+            ChatMessage.Send("ConcussiveGroup group was null, contact matterwoven in the modding discord about this issue");
         }
 
         public override void FixedUpdate()
         {
             //Implement windup here through a tickdown
             base.FixedUpdate();
-
+            float readyState = PercentageDone();
 
 
             // Fire only during active hit window
-            if (isAuthority && !hasFired && fixedAge >= windupTime)
+            if (isAuthority && (readyState >= 1))
             {
-                hasFired = true;
-                Fire();
-            }
+                InitializeAttack();
+                concussiveAttack.Fire();
+                PlayAnimation(duration);
 
-            if (isAuthority && fixedAge >= attackDelay)
-            {
+                OnExit();
                 outer.SetNextStateToMain();
             }
+
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -102,6 +115,9 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         public override void OnExit()
         {
             base.OnExit();
+            InitializeAttack();
+            concussiveAttack.Fire();
+            PlayAnimation(duration);
         }
     }
 }

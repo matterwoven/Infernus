@@ -25,7 +25,9 @@ namespace InfernusMod.Survivors.Infernus
         public override string masterName => "InfernusMonsterMaster"; //if you do not
 
         //the names of the prefabs you set up in unity that we will use to build your character
-        public override string modelPrefabName => "mdlInfernusGame";
+        //mdlInfernus = base with no anims
+        //mdlInfernus2 = base with anims
+        public override string modelPrefabName => "mdlInfernus2";
         public override string displayPrefabName => "InfernusDisplay";
 
         public const string INFERNUS_PREFIX = InfernusPlugin.DEVELOPER_PREFIX + "_INFERNUS_";
@@ -335,7 +337,7 @@ namespace InfernusMod.Survivors.Infernus
                 skillDescriptionToken = INFERNUS_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texConcussiveCombustionColored"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ConcussiveCombustion)),
                 //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
                 activationStateMachineName = "Weapon2", interruptPriority = EntityStates.InterruptPriority.Skill,
 

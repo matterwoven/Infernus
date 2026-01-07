@@ -12,7 +12,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         //delays for projectiles feel absolute ass so only do this if you know what you're doing, otherwise it's best to keep it at 0
         public static float BaseDelayDuration = 0.0f;
 
-        public static float DamageCoefficient = 16f;
+        public static float DamageCoefficient = 160000f;
 
         public override void OnEnter()
         {

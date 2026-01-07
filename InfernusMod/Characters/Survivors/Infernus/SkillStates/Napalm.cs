@@ -99,10 +99,10 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 Fire();
             }
 
-            if (isAuthority && fixedAge >= attackDelay)
-            {
-                outer.SetNextStateToMain();
-            }
+            //if (isAuthority && fixedAge >= attackDelay)
+            //
+                //outer.SetNextStateToMain();
+            //}
         }
 
         //private OverlapAttack.ModifyOverlapInfoCallback OnHitNap()
