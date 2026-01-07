@@ -39,6 +39,12 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
             hasFired = false;
 
+            Vector3 aimDirection = inputBank.aimDirection;
+
+            hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+
+            hitBoxTransform.position = characterBody.corePosition + aimDirection * offsetFloat;
+
             //Once you have anims PlayAnimation();
 
             //Once you have the audio Util.PlaySound("InfernusNapalm", gameObject);
@@ -47,7 +53,16 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         public void Fire()
         {
             if (!isAuthority || hasFired) return;
-            if (!hitBoxTransform) return;
+
+            Vector3 aimDirection = GetAimRay().direction;
+            Transform hitBoxTransform = FindHitBoxGroup("NapalmGroup")?.transform;
+
+            if (hitBoxTransform != null)
+            {
+                ChatMessage.Send("Napalm group was null, contact matterwoven in the modding discord about this issue");
+                hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+            }
+
             HitBoxGroup hitBoxGroup = FindHitBoxGroup("NapalmGroup");
             if (!hitBoxGroup)
             {
@@ -57,11 +72,11 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
             hasFired = true;
 
-            Vector3 aimDirection = inputBank.aimDirection;
-            
-            hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
 
-            hitBoxTransform.position = characterBody.corePosition + aimDirection * offsetFloat;
+            //hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
+
+            //hitBoxTransform.position = characterBody.corePosition + aimDirection * offsetFloat;
+
 
             napalmAttack = new OverlapAttack
             {
@@ -100,10 +115,13 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
 
             // Fire only during active hit window
-
-            if (isAuthority && (readyState >= 1f))
+            if(readyState >= 1f)
             {
                 hasFired = false;
+
+            }
+            if (isAuthority && !hasFired)
+            {
                 Fire();
                 PlayAnimation(attackDelay);
 

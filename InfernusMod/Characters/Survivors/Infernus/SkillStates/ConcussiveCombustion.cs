@@ -82,17 +82,14 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
         {
             //Implement windup here through a tickdown
             base.FixedUpdate();
+
+            
             float readyState = PercentageDone();
 
 
             // Fire only during active hit window
-            if (isAuthority && (readyState >= 1))
+            if (isAuthority && (readyState >= 1f))
             {
-                InitializeAttack();
-                concussiveAttack.Fire();
-                PlayAnimation(duration);
-
-                OnExit();
                 outer.SetNextStateToMain();
             }
 
