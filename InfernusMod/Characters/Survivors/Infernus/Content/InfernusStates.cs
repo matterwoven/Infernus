@@ -17,6 +17,8 @@ namespace InfernusMod.Survivors.Infernus
             Modules.Content.AddEntityState(typeof(Napalm));
 
             Modules.Content.AddEntityState(typeof(ThrowBomb));
+
+            Modules.Content.AddEntityState(typeof(ConcussiveCombustion));
         }
     }
 }
