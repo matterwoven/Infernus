@@ -59,7 +59,6 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
             if (hitBoxTransform != null)
             {
-                ChatMessage.Send("Napalm group was null, contact matterwoven in the modding discord about this issue");
                 hitBoxTransform.rotation = Quaternion.LookRotation(aimDirection, Vector3.up);
             }
 

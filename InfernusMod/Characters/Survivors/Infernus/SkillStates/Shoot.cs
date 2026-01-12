@@ -242,6 +242,8 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
 
                     float damageMultiplier = isCritting ? 0.5f : 1f;
 
+                    damageMultiplier *= FlameCanisterMult();
+
                     DotController.InflictDot(
                         victim,
                         gameObject,
@@ -256,8 +258,20 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 return returnValue;
             };
         }
-            
-            
+
+        public float FlameCanisterMult()
+        {
+            float stacks = 1f;
+            ItemDef itemDef = DLC1Content.Items.StrengthenBurn;
+            int ItemCount = characterBody.inventory.GetItemCountEffective(itemDef);
+            if (ItemCount > 0)
+            {
+                stacks *= ItemCount;
+                stacks *= 4;
+            }
+
+            return stacks;
+        }
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {

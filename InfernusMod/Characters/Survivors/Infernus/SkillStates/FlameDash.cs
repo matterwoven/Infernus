@@ -75,6 +75,7 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                     characterBody.AddTimedBuff(InfernusBuffs.speedBuff, duration);
                     //characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * duration);
                 }
+
             }
         }
 
@@ -125,6 +126,10 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 nextSpawnDistance += spawnInterval;
             }
 
+            if (Input.GetKey(KeyCode.Space))
+            {
+                outer.SetNextStateToMain();
+            }
 
             if (isAuthority && inputBank && characterDirection)
             {

@@ -82,7 +82,6 @@ namespace InfernusMod.Survivors.Infernus.SkillStates
                 hitBoxGroup = concussiveCombustion,
             };
 
-            ChatMessage.Send("ConcussiveGroup group was null, contact matterwoven in the modding discord about this issue");
         }
 
         public override void FixedUpdate()

@@ -28,7 +28,8 @@ namespace InfernusMod.Survivors.Infernus
         //mdlInfernus = base with no anims
         //mdlInfernus2 = base with anims
         public override string modelPrefabName => "mdlInfernus2";
-        public override string displayPrefabName => "InfernusDisplay";
+        //public override string displayPrefabName => "InfernusDisplay";
+        public override string displayPrefabName => "menuFernus";
 
         public const string INFERNUS_PREFIX = InfernusPlugin.DEVELOPER_PREFIX + "_INFERNUS_";
 
@@ -97,6 +98,8 @@ namespace InfernusMod.Survivors.Infernus
             {
                 characterBody.vehicleIdleStateMachine = Array.Empty<EntityStateMachine>();
             }
+
+
         }
 
         public override void InitializeCharacter()
@@ -153,6 +156,8 @@ namespace InfernusMod.Survivors.Infernus
 
             Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon");
             Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon2");
+
+
         }
 
         #region skills

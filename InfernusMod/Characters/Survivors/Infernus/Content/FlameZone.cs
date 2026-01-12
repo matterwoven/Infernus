@@ -97,6 +97,19 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
                     procCoefficient = 0.6f
                 };
 
+                if (victimBody.HasBuff(InfernusDebuffs.afterburnDebuff))
+                {
+                    DotController.InflictDot(
+                        hurtBox.gameObject,
+                        gameObject,
+                        hurtBox,
+                        InfernusDebuffs.afterburnDebuffIndex,
+                        10f,
+                        FlameCanisterMult() * 0.5f
+                    );
+                }
+
+
                 //Does the damage
                 hurtBox.healthComponent.TakeDamage(damageInfo);
                 //Triggers on damage effects
@@ -107,6 +120,20 @@ namespace InfernusMod.Characters.Survivors.Infernus.Content
             }
         }
 
+
+        public float FlameCanisterMult()
+        {
+            float stacks = 1f;
+            ItemDef itemDef = DLC1Content.Items.StrengthenBurn;
+            int ItemCount = ownerBody.inventory.GetItemCountEffective(itemDef);
+            if (ItemCount > 0)
+            {
+                stacks *= ItemCount;
+                stacks *= 4;
+            }
+
+            return stacks;
+        }
 
         public static class FlameZoneDamageManager
         {
